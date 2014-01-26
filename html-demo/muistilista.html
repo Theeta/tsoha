@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Muistilista</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link href="../css/bootstrap.css" rel="stylesheet">
+        <link href="../css/bootstrap-theme.css" rel="stylesheet">
+        <link href="../css/main.css" rel="stylesheet">
+    </head>
+    <body>
+        <nav class="navbar navbar-default" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Ossin Muistilista</a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <button type="button" class="btn btn-default navbar-btn">Kirjaudu ulos</button>
+                <form class="navbar-form navbar-right" role="search">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Sana">
+                    </div>
+                    <button type="submit" class="btn btn-default">Etsi</button>
+                </form>
+
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="btn-group">
+                <button type="button" class="btn btn-default">Lisää tehtävä</button>
+                <button type="button" class="btn btn-default">Muokkaa tärkeysasteita</button>
+                <button type="button" class="btn btn-default">Muokkaa luokkia</button>
+            </div>
+            <div class="btn-group">
+
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    Tärkeysaste <span class="caret"></span>
+                </button>
+
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">tärkeä</a></li>
+                    <li><a href="#">turha</a></li>
+                    <li><a href="#">unohda koko juttu</a></li>
+                </ul>
+
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    Luokka <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">Kotona</a></li>
+                    <li><a href="#">Mökillä</a></li>
+                    <li><a href="#">Ulkona</a></li>
+                </ul>
+
+            </div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Tehtävä</th>
+                        <th>Tärkeysaste</th>
+                        <th>Luokat</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Käy kaupassa</td>
+                        <td>tärkeä</td>
+                        <td>Kodin ulkopuolella</td>
+                        <td><button type="button" class="btn btn-xs btn-default"> Muokkaa</button></td>
+                    </tr>
+                    <tr>
+                        <td>Mene kotiin</td>
+                        <td>turha</td>
+                        <td></td>
+                        <td><button type="button" class="btn btn-xs btn-default"> Muokkaa</button></td>
+                    </tr>
+                    <tr>
+                        <td>Nuku</td>
+                        <td></td>
+                        <td>Kotona</td>
+                        <td><button type="button" class="btn btn-xs btn-default"> Muokkaa</button></td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+            <ul class="pagination">
+                <li class="disabled"><a href="#">&laquo;</a></li>
+                <li class="active"><a href="#">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">4</a></li>
+                <li><a href="#">5</a></li>
+                <li><a href="#">&raquo;</a></li>
+            </ul>
+        </div>
+    </body>
+</html>
