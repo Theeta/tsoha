@@ -4541,6 +4541,8 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .navbar-nav > li > a {
   padding-top: 10px;
   padding-bottom: 10px;
+  margin-left: 20px;
+  margin-right: 20px;
   line-height: 20px;
 }
 
@@ -4721,7 +4723,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .navbar-default .navbar-nav > li > a {
-  color: #777777;
+  color: #4d0000;
 }
 
 .navbar-default .navbar-nav > li > a:hover,

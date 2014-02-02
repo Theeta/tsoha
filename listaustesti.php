@@ -1,6 +1,5 @@
 <?php
-//Lista asioista array-tietotyyppiin laitettuna:
-require_once 'libs/kayttaja.php';
+require_once 'libs/models/kayttaja.php';
 require_once "libs/tietokantayhteys.php";
 $lista = Kayttaja::getKayttajat();
 ?><!DOCTYPE HTML>

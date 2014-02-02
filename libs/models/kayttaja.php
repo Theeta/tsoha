@@ -1,7 +1,5 @@
 <?php
 
-//require 'tietokantayhteys.php';
-
 class Kayttaja {
 
     private $id;
@@ -32,7 +30,21 @@ class Kayttaja {
         return $this->salasana;
     }
 
-    /* Tähän gettereitä ja settereitä */
+    public function setId($id) {
+        $this->id = $id;
+    }
+
+    public function setNimi($nimi) {
+        $this->nimi = $nimi;
+    }
+
+    public function setTunnus($tunnus) {
+        $this->tunnus = $tunnus;
+    }
+
+    public function setSalasana($salasana) {
+        $this->salasana = $salasana;
+    }
 
     public static function getKayttajat() {
         $sql = "SELECT id, nimi, tunnus, salasana from kayttaja";
@@ -42,11 +54,29 @@ class Kayttaja {
         $tulokset = array();
         foreach ($kysely->fetchAll(PDO::FETCH_OBJ) as $tulos) {
             $kayttaja = new Kayttaja($tulos->id, $tulos->nimi, $tulos->tunnus, $tulos->salasana);
-            //$array[] = $muuttuja; lisää muuttujan arrayn perään. 
-            //Se vastaa melko suoraan ArrayList:in add-metodia.
             $tulokset[] = $kayttaja;
         }
         return $tulokset;
+    }
+
+    /* Etsitään kannasta käyttäjätunnuksella ja salasanalla käyttäjäriviä */
+
+    public static function getKayttajaTunnuksilla($kayttaja, $salasana) {
+        $sql = "SELECT id, tunnus, salasana from kayttaja where tunnus = ? AND salasana = ? LIMIT 1";
+        $kysely = getTietokantayhteys()->prepare($sql);
+        $kysely->execute(array($kayttaja, $salasana));
+
+        $tulos = $kysely->fetchObject();
+        if ($tulos == null) {
+            return null;
+        } else {
+            $kayttaja = new Kayttaja();
+            $kayttaja->id = $tulos->id;
+            $kayttaja->tunnus = $tulos->tunnus;
+            $kayttaja->salasana = $tulos->salasana;
+
+            return $kayttaja;
+        }
     }
 
 }
