@@ -1,4 +1,5 @@
 <?php
+
 require_once 'tarkeysaste.php';
 
 class Tehtava {
@@ -37,7 +38,7 @@ class Tehtava {
     public function getTarkeysaste() {
         return $this->tarkeysaste;
     }
-    
+
     public function getVirheet() {
         return $this->virheet;
     }
@@ -105,13 +106,29 @@ class Tehtava {
         }
         return $ok;
     }
-    
-    public static function etsi($id){
+
+    public static function etsi($id) {
         $sql = "SELECT * FROM tehtava WHERE id =?";
         $kysely = getTietokantayhteys()->prepare($sql);
         $tulos = $kysely->execute(array($id));
         return $tulos;
     }
 
+    public function muokkaaKantaa($id, $kuvaus, $kayttaja_id, $tarkeysaste_id) {
+        $sql = "UPDATE tehtava SET kuvaus=?, kayttaja_id=?, tarkeysaste_id=? WHERE id=?";
+        $kysely = getTietokantayhteys()->prepare($sql);
+
+        $ok = $kysely->execute(array($kuvaus, $kayttaja_id, $tarkeysaste_id, $id));
+        if ($ok) {
+            $this->id = $kysely->fetchColumn();
+        }
+        return $ok;
+    }
+
+    public function poistaKannasta($id) {
+        $sql = "DELETE FROM tehtava WHERE id=?";
+        $kysely = getTietokantayhteys()->prepare($sql);
+        $kysely->execute(array($id));
+    }
 
 }

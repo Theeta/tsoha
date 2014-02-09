@@ -10,7 +10,7 @@
         <div class="form-group">
             <label for="inputTarkeysasteId" class="col-md-2 control-label">Tehtävän tärkeysaste</label>
             <div class="col-md-10">
-                <input type="number" class="form-control" id="inputTarkeysasteId" name="tarkeysaste_id">
+                <input type="number" class="form-control" id="inputTarkeysasteId" name="tarkeysaste_id" value="<?php echo $data->tehtava->getTarkeysaste_id() ?>">
             </div>
         </div>
         <div class="form-group">
