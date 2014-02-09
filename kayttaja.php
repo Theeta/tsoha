@@ -13,7 +13,7 @@
   $kissat = Kissa::hae($hakusana);
   
   //Näytetään näkymä lähettäen sille muutamia muuttujia
-  naytaNakymä("kissalista", array(
+  naytaNakyma("kissalista", array(
     'title' => "Kissalista",
     'kissat' => $kissat
   ));

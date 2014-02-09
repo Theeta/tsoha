@@ -35,5 +35,12 @@ class Tarkeysaste {
     public function setKayttaja_id($kayttaja_id) {
         $this->kayttaja_id = $kayttaja_id;
     }
+    
+    public static function etsi($id){
+        $sql = "SELECT * FROM tarkeysaste WHERE id =?";
+        $kysely = getTietokantayhteys()->prepare($sql);
+        $tulos = $kysely->execute(array($id));
+        return $tulos;
+    }
 
 }

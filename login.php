@@ -21,8 +21,9 @@ $kayttaja = Kayttaja::getKayttajaTunnuksilla($kayttaja, $salasana);
 
 /* Tarkistetaan onko parametrina saatu oikeat tunnukset */
 if (isset($kayttaja)) {
-    /* Jos tunnus on oikea, ohjataan käyttäjä sopivalla HTTP-otsakkeella kissalistaan. */
+    /* Jos tunnus on oikea, ohjataan käyttäjä sopivalla HTTP-otsakkeella listaan. */
     $_SESSION['kayttaja'] = $kayttaja;
+    $_SESSION['kayttaja_id'] = $kayttaja->getId();
     siirrySivulle('tehtavalista.php');
 } else {
     naytaNakyma("kirjautuminen.php", array(

@@ -1,5 +1,5 @@
 <?php 
-  $tervehdys = "Moi maailma!"; 
+  $tervehdys = "Näitä ei ole vielä toteutettu!"; 
 ?><!DOCTYPE HTML>
 <html>
 <head><title><?php echo $tervehdys; ?></title></head>

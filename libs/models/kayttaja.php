@@ -62,7 +62,7 @@ class Kayttaja {
     /* Etsitään kannasta käyttäjätunnuksella ja salasanalla käyttäjäriviä */
 
     public static function getKayttajaTunnuksilla($kayttaja, $salasana) {
-        $sql = "SELECT id, tunnus, salasana from kayttaja where tunnus = ? AND salasana = ? LIMIT 1";
+        $sql = "SELECT id, nimi, tunnus, salasana from kayttaja where tunnus = ? AND salasana = ? LIMIT 1";
         $kysely = getTietokantayhteys()->prepare($sql);
         $kysely->execute(array($kayttaja, $salasana));
 
@@ -72,6 +72,7 @@ class Kayttaja {
         } else {
             $kayttaja = new Kayttaja();
             $kayttaja->id = $tulos->id;
+            $kayttaja->nimi = $tulos->nimi;
             $kayttaja->tunnus = $tulos->tunnus;
             $kayttaja->salasana = $tulos->salasana;
 

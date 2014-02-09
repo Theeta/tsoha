@@ -24,3 +24,12 @@ function onkoKirjautunut() {
         return FALSE;
     }
 }
+
+
+function naytaKirjautuneelle($nakyma, $data) {
+    if (onkoKirjautunut()) {
+        naytaNakyma($nakyma, $data);
+    } else {
+        siirrySivulle('login.php');
+    }
+}
