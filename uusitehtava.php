@@ -3,34 +3,29 @@
 require_once 'libs/common.php';
 require_once 'libs/models/tehtava.php';
 
-if (empty($_POST['kuvaus']) && empty($_POST['tarkeysaste_id'])) {
-    naytaKirjautuneelle('uusitehtava_view.php', array());
+$tarkeysasteet = Tarkeysaste::getTarkeysasteet($_SESSION['kayttaja_id']);
+
+
+if (isset($_POST['kuvaus'])) {
+    
+    $tehtava = new Tehtava(null, null, null, null, null);
+    $tehtava->setKayttaja_id($_SESSION['kayttaja_id']);
+    
+    $tehtava->setKuvaus($_POST['kuvaus']);
+    $tehtava->setTarkeysaste_id($_POST['tarkeysaste_id']);
+
+    if ($tehtava->onkoKelvollinen()) {
+        $tehtava->lisaaKantaan();
+        siirrySivulle('tehtavalista.php');
+        $_SESSION['ilmoitus'] = "Tehtävä lisätty onnistuneesti.";
+    } else {
+        $virheet = $tehtava->getVirheet();
+        naytaKirjautuneelle('uusitehtava_view.php', array('tarkeysasteet' => $tarkeysasteet, 'virheet' => $virheet));
+    }
+}
+else {
+    naytaKirjautuneelle('uusitehtava_view.php', array('tarkeysasteet' => $tarkeysasteet));
 }
 
-$uusitehtava = new Tehtava(null, null, null, null, null);
 
-if (empty($_POST["kuvaus"])) {
-    naytaNakyma("uusitehtava_view.php", array('virheet' => "Anna tehtävän kuvaus"));
-}
-$uusitehtava->setKuvaus($_POST['kuvaus']);
-
-if (empty($_POST["tarkeysaste_id"])) {
-    naytaNakyma("uusitehtava_view.php", array('virheet' => "Anna tehtävän tärkeysaste"));
-}
-$uusitehtava->setTarkeysaste_id($_POST['tarkeysaste_id']);
-
-
-$uusitehtava->setKayttaja_id($_SESSION['kayttaja_id']);
-
-
-//Pyydetään Kissa-oliota tarkastamaan syötetyt tiedot.
-if ($uusitehtava->onkoKelvollinen()) {
-    $uusitehtava->lisaaKantaan();
-    siirrySivulle('tehtavalista.php');
-    $_SESSION['ilmoitus'] = "Tehtävä lisätty onnistuneesti.";
-} else {
-    $virheet = $uusitehtava->getVirheet();
-}
-
-naytaKirjautuneelle('uusitehtava_view.php', array('tehtava'=>$uusitehtava, 'virheet'=>$virheet));
 ?>

@@ -14,8 +14,11 @@
                 <div class="navbar-header">
                     <a class="navbar-brand" href="tehtavalista.php">Muistilista</a>
                 </div>
+
                 <ul class="nav navbar-nav navbar-right">
+
                     <li><a href="uusitehtava.php">Lisää uusi tehtävä</a></li>
+                    <li><a href="tarkeysasteenmuokkaus.php">Muokkaa tärkeysasteita</a></li>
                     <li><a href="logout.php">Kirjaudu ulos</a></li>
                 </ul>
             <?php else: ?>
@@ -25,16 +28,29 @@
             <?php endif; ?>
         </nav>
         <?php if (!empty($_SESSION['ilmoitus'])): ?>
+            <div class="alert alert-success">
+                <?php echo $_SESSION['ilmoitus']; ?>
+            </div>
             <?php
             unset($_SESSION['ilmoitus']);
             ?>
+        <?php endif; ?>
+        <?php if (isset($data->virheet)): ?>
             <div class="alert alert-danger">
-                <?php echo $_SESSION['ilmoitus']; ?>
+                <?php if (is_array($data->virheet)): ?>
+                    <ul>
+                        <?php foreach ($data->virheet as $virhe): ?>
+                            <li><?php echo $virhe ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+
+                <?php else: ?>
+                    <p><?php echo $data->virheet ?></p>
+                <?php endif; ?>
+
             </div>
         <?php endif; ?>
-        <?php if (!empty($data->virheet)): ?>
-            <div class="alert alert-danger"><?php echo $data->virheet; ?></div>
-        <?php endif; ?>
         <?php require $sivu; ?>
+        
     </body>
 </html>
