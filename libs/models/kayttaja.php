@@ -46,6 +46,7 @@ class Kayttaja {
         $this->salasana = $salasana;
     }
 
+    //haetaan kaikki käyttäjät tietokannasta
     public static function getKayttajat() {
         $sql = "SELECT id, nimi, tunnus, salasana from kayttaja";
         $kysely = getTietokantayhteys()->prepare($sql);
@@ -59,8 +60,7 @@ class Kayttaja {
         return $tulokset;
     }
 
-    /* Etsitään kannasta käyttäjätunnuksella ja salasanalla käyttäjäriviä */
-
+    //etsitään tietty käyttäjä tietokannasta
     public static function getKayttajaTunnuksilla($kayttaja, $salasana) {
         $sql = "SELECT id, nimi, tunnus, salasana from kayttaja where tunnus = ? AND salasana = ? LIMIT 1";
         $kysely = getTietokantayhteys()->prepare($sql);

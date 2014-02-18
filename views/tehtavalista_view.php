@@ -1,6 +1,6 @@
 <div class="container">
     <h1>Tehtävät</h1>
-    <p>Tehtäviä yhteensä <?php echo ($data->lukumaara); ?> kappaletta</p>
+    <p>Tehtäviä <?php echo ($data->lukumaara); ?> kappaletta</p>
     
     <div class="btn-group">
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -8,22 +8,38 @@
             </button>
             <ul class="dropdown-menu" role="menu">
                 <?php foreach ($data->tarkeysasteet as $tarkeysaste): ?>
-                <li><a href="tehtavalista.php?tarkeysaste=<?php echo $tarkeysaste->getId(); ?>"><?php echo $tarkeysaste->getNimi(); ?></a></li>
+                <li><a href="tehtavalista.php?tarkeysaste=<?php echo $tarkeysaste->getId(); ?>
+                    <?php if ($data->luokka): echo "&luokka=".$data->luokka; endif;?>"><?php echo htmlspecialchars($tarkeysaste->getNimi()); ?></a></li>
                 <?php endforeach; ?>
                 <li class="divider"></li>
                 <li><a href="tehtavalista.php">Näytä kaikki tehtävät</a></li>
             </ul>
         </div>
+    
+    <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                Valitse luokka <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <?php foreach ($data->luokat as $luokka): ?>
+                <li><a href="tehtavalista.php?<?php if ($data->tarkeysaste): echo "tarkeysaste=".$data->tarkeysaste; endif;?>
+                       &luokka=<?php echo $luokka->getId(); ?>"><?php echo htmlspecialchars($luokka->getNimi()); ?></a></li>
+                <?php endforeach; ?>
+                <li class="divider"></li>
+                <li><a href="tehtavalista.php">Näytä kaikki tehtävät</a></li>
+            </ul>
+        </div>
+    
+    
 
     <div class="container">
-
-        
 
         <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Tehtävän kuvaus</th>
                     <th>Tärkeysaste</th>
+                    <th>Luokat</th>
                     <th>Muokkaa</th>
                     <th>Poista</th>
                 </tr>
@@ -33,6 +49,11 @@
                     <tr>
                         <td><?php echo htmlspecialchars($tehtava->getKuvaus()); ?></td>
                         <td><?php echo htmlspecialchars($tehtava->getTarkeysaste()); ?></td>
+                        <td><?php $luokat = $tehtava::getLuokat($tehtava->getId()); 
+                        foreach ($luokat as $luokka){
+                            echo htmlspecialchars($luokka->getNimi()) ."<br>";
+                        }
+?></td>
                         <td><a href="tehtavanmuokkaus.php?id=<?php echo $tehtava->getId(); ?>"<button type="button" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-edit"></span></button> </a></td>
                         <td>
                             <form action="tehtavanpoisto.php" method="POST">
@@ -49,7 +70,9 @@
 
         <ul class="pagination">
             <?php if ($data->sivu > 1): ?>
-                <li><a href="tehtavalista.php?sivu=<?php echo $data->sivu - 1; ?>">&laquo;</a></li>
+                <li><a href="tehtavalista.php?<?php if ($data->tarkeysaste): echo "tarkeysaste=".$data->tarkeysaste; endif;?>
+                    <?php if ($data->luokka): echo "&luokka=".$data->luokka; endif;?>
+                       &sivu=<?php echo $data->sivu - 1; ?>">&laquo;</a></li>
             <?php else: ?>
                 <li class="disabled"><a href="#">&laquo;</a></li>
             <?php endif; ?>
@@ -58,14 +81,18 @@
                 <?php if ($data->sivu == $numero): ?>
                     <li class="active"><a href="#"><?php echo $numero ?> <span class="sr-only">(current)</span></a></li>
                 <?php else: ?>
-                    <li><a href="tehtavalista.php?sivu=<?php echo $numero; ?>"><?php echo $numero ?></a></li>
+                    <li><a href="tehtavalista.php?<?php if ($data->tarkeysaste): echo "tarkeysaste=".$data->tarkeysaste; endif;?>
+                        <?php if ($data->luokka): echo "&luokka=".$data->luokka; endif;?>
+                           &sivu=<?php echo $numero; ?>"><?php echo $numero ?></a></li>
                 <?php endif; ?>
                 <?php
                 $numero++;
             }
             ?>
             <?php if ($data->sivu < $data->sivuja): ?>
-                <li><a href="tehtavalista.php?sivu=<?php echo $data->sivu + 1; ?>">&raquo;</a></li>
+                <li><a href="tehtavalista.php?<?php if ($data->tarkeysaste): echo "tarkeysaste=".$data->tarkeysaste; endif;?>
+                    <?php if ($data->luokka): echo "&luokka=".$data->luokka; endif;?>
+                       &sivu=<?php echo $data->sivu + 1; ?>">&raquo;</a></li>
             <?php else: ?>
                 <li class="disabled"><a href="#">&raquo;</a></li>
                 <?php endif; ?>

@@ -54,3 +54,6 @@ values(1,1);
 
 insert into tehtavanluokat(tehtava_id, luokka_id)
 values(2,1);
+
+insert into tehtavanluokat(tehtava_id, luokka_id)
+values(2,2);

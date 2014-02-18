@@ -19,6 +19,7 @@
 
                     <li><a href="uusitehtava.php">Lisää uusi tehtävä</a></li>
                     <li><a href="tarkeysasteenmuokkaus.php">Muokkaa tärkeysasteita</a></li>
+                    <li><a href="luokanmuokkaus.php">Muokkaa luokkia</a></li>
                     <li><a href="logout.php">Kirjaudu ulos</a></li>
                 </ul>
             <?php else: ?>

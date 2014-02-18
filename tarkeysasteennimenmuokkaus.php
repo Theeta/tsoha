@@ -3,18 +3,20 @@
 require_once 'libs/common.php';
 require_once 'libs/models/tarkeysaste.php';
 
+$kayttaja_id = (int) $_SESSION['kayttaja_id'];
+
 if (isset($_GET['id'])) {
     $id = (int) $_GET['id'];
-    $tarkeysaste = Tarkeysaste::etsi($id);
+    $tarkeysaste = Tarkeysaste::etsi($id, $kayttaja_id);
 
     naytaKirjautuneelle('tarkeysasteennimenmuokkaus_view.php', array('tarkeysaste' => $tarkeysaste));
 } else if (isset($_POST['nimi'])) {
     $id = (int) $_POST['id'];
     $nimi = $_POST['nimi'];
-    $tarkeysaste = Tarkeysaste::etsi($id);
+    $tarkeysaste = Tarkeysaste::etsi($id, $kayttaja_id);
     $tarkeysaste->setNimi($nimi);
 
-    $tarkeysaste->setKayttaja_id($_SESSION['kayttaja_id']);
+    $tarkeysaste->setKayttaja_id($kayttaja_id);
 
     if ($tarkeysaste->onkoKelvollinen()) {
         $tarkeysaste->muokkaaKantaa($id);
@@ -22,7 +24,6 @@ if (isset($_GET['id'])) {
         $_SESSION['ilmoitus'] = "Tärkeysastetta muokattu onnistuneesti.";
     } else {
         $virheet = $tarkeysaste->getVirheet();
-        $kayttaja_id = (int) $_SESSION['kayttaja_id'];
 
         $tarkeysasteet = Tarkeysaste::getTarkeysasteet($kayttaja_id);
         naytaKirjautuneelle('tarkeysasteenmuokkaus_view.php', array('virheet' => $virheet, 'tarkeysasteet'=>$tarkeysasteet));

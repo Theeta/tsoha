@@ -2,7 +2,8 @@
 require_once 'libs/common.php';
   //Poistetaan istunnosta merkintä kirjautuneesta käyttäjästä -> Kirjaudutaan ulos
   unset($_SESSION['kayttaja']);
+  unset($_SESSION['kayttaja_id']);
 
-  //Yleensä kannattaa ulkos kirjautumisen jälkeen ohjata käyttäjä kirjautumissivulle
+  //Ohjataan käyttäjä kirjautumissivulle
   siirrySivulle('login.php');
 ?>
