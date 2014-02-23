@@ -34,13 +34,14 @@ class Luokka {
         $this->id = $id;
     }
 
+    //tarkastetaan, kelpaako annettu nimi
     public function setNimi($nimi) {
         $this->nimi = $nimi;
 
         if (trim($this->nimi) == '') {
-            $this->virheet['nimi'] = "Tärkeysasteen nimi ei saa olla tyhjä.";
+            $this->virheet['nimi'] = "Luokan nimi ei saa olla tyhjä.";
         } elseif (strlen($this->nimi) > 255) {
-            $this->virheet['nimi'] = "Tärkeysasteen nimen on oltava alle 255 merkkiä.";
+            $this->virheet['nimi'] = "Luokan nimen on oltava alle 255 merkkiä.";
         } else {
             unset($this->virheet['nimi']);
         }
@@ -97,11 +98,11 @@ class Luokka {
     }
 
     //lisää uuden luokan tietokantaan
-    public function lisaaKantaan($nimi, $kayttaja_id) {
+    public function lisaaKantaan() {
         $sql = "INSERT INTO luokka(nimi, kayttaja_id) VALUES(?,?) RETURNING id";
         $kysely = getTietokantayhteys()->prepare($sql);
 
-        $ok = $kysely->execute(array($nimi, $kayttaja_id));
+        $ok = $kysely->execute(array($this->getNimi(), $this->getKayttaja_id()));
         if ($ok) {
             $id = $kysely->fetchColumn();
         }
@@ -128,6 +129,7 @@ class Luokka {
         $kysely->execute(array($id));
     }
 
+    //tarkastetaan, onko kyseinen luokkaolio kelvollinen eli sisältääkö se virheitä
     public function onkoKelvollinen() {
         return empty($this->virheet);
     }

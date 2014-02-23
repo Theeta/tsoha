@@ -4,8 +4,8 @@
         <div class="form-group">
             <label for="inputTunnus" class="col-md-2 control-label">Käyttäjätunnus</label>
             <div class="col-md-10">
-                <?php if (isset($data->kayttaja)): ?>
-                <input type="text" class="form-control" id="inputTunnus" name="username" placeholder="Tunnus" value="<?php echo $data->kayttaja; ?>">
+                <?php if (isset($data->tunnus)): ?>
+                <input type="text" class="form-control" id="inputTunnus" name="username" placeholder="Tunnus" value="<?php echo htmlspecialchars($data->tunnus); ?>">
                 <?php else: ?>
                 <input type="text" class="form-control" id="inputTunnus" name="username" placeholder="Tunnus">
                 <?php endif ?>
@@ -17,6 +17,7 @@
                 <input type="password" class="form-control" id="inputPassword1" name="password" placeholder="Salasana">
             </div>
         </div>
+        <input type="hidden" name="lahetetty" value="1">
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <button type="submit" class="btn btn-default">Kirjaudu sisään</button>

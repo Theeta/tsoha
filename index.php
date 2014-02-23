@@ -1,9 +1,9 @@
-<?php 
-  $tervehdys = "Näitä ei ole vielä toteutettu!"; 
-?><!DOCTYPE HTML>
+<!DOCTYPE HTML>
 <html>
-<head><title><?php echo $tervehdys; ?></title></head>
+<head><title>Muistilista</title></head>
 <body>
-  <h1><?php echo $tervehdys; ?></h1>
+<li><a href="http://imberg.users.cs.helsinki.fi/Muistilista/login.php">Sovelluksen kirjautumissivu</a></li>
+<li><a href="https://github.com/Theeta/tsoha">Työn repositorio</a></li>
+<li><a href="http://imberg.users.cs.helsinki.fi/Muistilista/esittelysivu.html">Esittelysivu</a></li>
 </body>
 </html>

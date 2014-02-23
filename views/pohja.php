@@ -20,12 +20,16 @@
                     <li><a href="uusitehtava.php">Lisää uusi tehtävä</a></li>
                     <li><a href="tarkeysasteenmuokkaus.php">Muokkaa tärkeysasteita</a></li>
                     <li><a href="luokanmuokkaus.php">Muokkaa luokkia</a></li>
+                    <li><a href="kayttajanmuokkaus.php?id=<?php echo $_SESSION['kayttaja_id']; ?>">Käyttäjätiedot</a></li>
                     <li><a href="logout.php">Kirjaudu ulos</a></li>
                 </ul>
             <?php else: ?>
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="#">Muistilista</a>
+                    <a class="navbar-brand" href="login.php">Muistilista</a>
                 </div>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="uusikayttaja.php">Uusi käyttäjä</a></li>
+            </ul>
             <?php endif; ?>
         </nav>
         <?php if (!empty($_SESSION['ilmoitus'])): ?>

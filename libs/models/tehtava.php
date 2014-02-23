@@ -46,11 +46,12 @@ class Tehtava {
         return $this->virheet;
     }
 
-    public function getLuokat($tehtava_id) {
+    //palauttaa kyseisen tehtävän luokat
+    public function getLuokat() {
         $sql = "SELECT tehtava.id as tehtava_id, tehtava.kayttaja_id as kayttaja_id, luokka.id as luokka_id, luokka.nimi as nimi, luokka.kayttaja_id
             FROM tehtava, luokka, tehtavanluokat WHERE tehtava.id = ? and tehtava.id = tehtavanluokat.tehtava_id and luokka.id = tehtavanluokat.luokka_id and tehtava.kayttaja_id = luokka.kayttaja_id";
         $kysely = getTietokantayhteys()->prepare($sql);
-        $kysely->execute(array($tehtava_id));
+        $kysely->execute(array($this->id));
 
         $tulokset = array();
         foreach ($kysely->fetchAll(PDO::FETCH_OBJ) as $tulos) {
@@ -60,6 +61,7 @@ class Tehtava {
         return $tulokset;
     }
     
+    //kertoo, onko kyseessä tietyn tehtävän luokka
     public function onkoTehtavanLuokka($tehtava_id, $luokka_id){
         $tehtavanLuokat = $this->getLuokat($tehtava_id);
         foreach ($tehtavanLuokat as $luokka){
@@ -109,8 +111,9 @@ class Tehtava {
         }
     }
 
+    //tarkastetaan, että halutut luokat ovat olemassa
     public function setLuokat($luokka_id, $kayttaja_id) {
-        $this->luokat[] = $luokka_id;
+        $this->luokat[] = Luokka::etsi($luokka_id, $kayttaja_id);
 
         if (Luokka::etsi($luokka_id, $kayttaja_id) == null) {
             $this->virheet['luokka_id'] = "Luokkaa ei löytynyt tietokannasta";
@@ -199,12 +202,12 @@ class Tehtava {
     }
 
     //listaa tietyn käyttäjän tehtävät, joilla on tietty luokka ja tärkeysaste ja jotka ovat tietyllä sivulla, jota halutaan nyt tarkastella
-    public static function getKayttajanTehtavatTarkeysasteellaJaLuokalla($id, $sivu, $montako, $tarkeysaste_id, $luokka_id) {
-
-        $sql = "SELECT DISTINCT tehtava.id as id, tehtava.kuvaus as kuvaus,
+    public static function getKayttajanTehtavatTarkeysasteellaJaLuokalla($id, $tarkeysaste_id, $luokka_id, $sivu, $montako) {
+        
+        $sql = "SELECT tehtava.id as id, tehtava.kuvaus as kuvaus,
             tehtava.kayttaja_id as kayttaja_id, tehtava.tarkeysaste_id as tarkeysaste_id,
-            tarkeysaste.nimi as tarkeysaste, luokka.id FROM tehtava, tarkeysaste, luokka, tehtavanluokat 
-            WHERE tehtava.kayttaja_id = ? and tehtava.tarkeysaste_id = ? and tehtava.tarkeysaste_id=tarkeysaste.id and tehtavanluokat.luokka_id = ? and tehtavanluokat.tehtava_id = tehtava.id and tehtavanluokat.luokka_id = luokka.id
+            tarkeysaste.nimi as tarkeysaste, luokka.id as luokka_id FROM tehtava, tarkeysaste, luokka, tehtavanluokat 
+            WHERE tehtava.kayttaja_id = ? and tehtava.tarkeysaste_id = ? and tehtava.tarkeysaste_id=tarkeysaste.id and luokka.id = ? and tehtavanluokat.tehtava_id = tehtava.id and tehtavanluokat.luokka_id = luokka.id
             ORDER by kuvaus LIMIT ? OFFSET ?";
 
         $kysely = getTietokantayhteys()->prepare($sql);
@@ -270,25 +273,27 @@ class Tehtava {
         return $ok;
     }
 
+    //lisää tehtävän luokat tietokantaan
     public function lisaaLuokatKantaan($id) {
         foreach ($this->luokat as $luokka) {
             $sql = "INSERT INTO tehtavanluokat(tehtava_id, luokka_id) VALUES(?,?) RETURNING tehtava_id";
             $kysely = getTietokantayhteys()->prepare($sql);
 
-            $ok = $kysely->execute(array($id, $luokka));
+            $ok = $kysely->execute(array($id, $luokka->getId()));
             if ($ok) {
                 $this->id = $kysely->fetchColumn();
             }
         }
     }
     
+    //poistaa tehtävän luokat tietokannasta
     public function poistaLuokatKannasta($id) {
         $sql = "DELETE FROM tehtavanluokat WHERE tehtava_id=?";
         $kysely = getTietokantayhteys()->prepare($sql);
         $kysely->execute(array($id));
     }
 
-    //palauttaa tietyn käyttäjäjn tietyn tehtävän
+    //palauttaa tietyn käyttäjän tietyn tehtävän
     public static function etsi($id, $kayttaja_id) {
         $sql = "SELECT tehtava.id as id, tehtava.kuvaus as kuvaus,
             tehtava.kayttaja_id as kayttaja_id, tehtava.tarkeysaste_id as tarkeysaste_id,

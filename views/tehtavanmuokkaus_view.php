@@ -1,6 +1,6 @@
 <div class="container">
     <h1>Muokkaa tehtävää</h1>
-    <form class="form-horizontal" role="form" action="muokkaatehtavaa.php" method="POST">
+    <form class="form-horizontal" role="form" action="tehtavanmuokkaus.php" method="POST">
         <div class="form-group">
             <label for="inputKuvaus" class="col-md-2 control-label">Tehtävän kuvaus:</label>
 
@@ -22,11 +22,12 @@
             </select>
         </div>
 
+        <?php if (!empty($data->luokat)): ?>
         <div class="form-group">
             <label for="inputLuokat" class="col-md-2 control-label">Tehtävän luokat:</label>
             <div class="checkbox col-md-10">
                 <?php foreach ($data->luokat as $luokka): ?>
-                    <?php if ($data->tehtava->onkoTehtavanLuokka($data->tehtava->getId(), $luokka->getId())): ?>
+                    <?php if (!empty($data->tehtava) && $data->tehtava->onkoTehtavanLuokka($data->tehtava->getId(), $luokka->getId())): ?>
                         <input type="checkbox" name="luokka[]" value="<?php echo $luokka->getId(); ?>" checked /><?php echo htmlspecialchars($luokka->getNimi()); ?><br />
                     <?php else: ?>
                         <input type="checkbox" name="luokka[]" value="<?php echo $luokka->getId(); ?>" /><?php echo htmlspecialchars($luokka->getNimi()); ?><br />
@@ -34,6 +35,7 @@
                 <?php endforeach; ?>
             </div>
         </div>
+        <?php endif; ?>
 
         <input type="hidden" name="id" value="<?php echo $data->tehtava->getId(); ?>">
 

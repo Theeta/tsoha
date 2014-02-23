@@ -31,6 +31,7 @@
                 <input type="text" class="form-control" id="inputNimi" name="nimi" placeholder="Lisää uusi luokka">
             </div></td>
             <td></td>
+            <input type="hidden" name="lahetetty" value="1">
             <td><div class="form-group">
                 <button type="submit" class="btn btn-default">Tallenna</button>
             </div></td>

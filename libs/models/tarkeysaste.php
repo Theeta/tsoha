@@ -87,11 +87,11 @@ class Tarkeysaste {
     }
 
     //lisätään kantaan uusi tärkeysaste
-    public function lisaaKantaan($nimi, $kayttaja_id) {
+    public function lisaaKantaan() {
         $sql = "INSERT INTO tarkeysaste(nimi, kayttaja_id) VALUES(?,?) RETURNING id";
         $kysely = getTietokantayhteys()->prepare($sql);
 
-        $ok = $kysely->execute(array($nimi, $kayttaja_id));
+        $ok = $kysely->execute(array($this->getNimi(), $this->getKayttaja_id()));
         if ($ok) {
             $id = $kysely->fetchColumn();
         }
